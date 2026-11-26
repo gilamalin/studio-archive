@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 import { siteMeta } from "@/data/site";
 import "./globals.css";
 
@@ -22,8 +24,15 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
         />
       </head>
-      <body className="min-h-screen bg-[#FAF7F2] text-[#18181B] antialiased">
-        {children}
+      <body
+        suppressHydrationWarning
+        className="min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased"
+      >
+        <div className="flex min-h-screen flex-col bg-[var(--bg)]">
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

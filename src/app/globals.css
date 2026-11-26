@@ -1,13 +1,21 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-canvas: #FAF7F2;
-  --color-surface: #FFFFFF;
-  --color-ink: #18181B;
-  --color-ink-muted: #52525B;
-  --color-accent-orange: #FF5A1F;
-  --color-accent-yellow: #FACC15;
+:root {
+  --bg: #14161B;
+  --surface: #1E2128;
+  --surface-alt: #181B21;
+  --surface-hover: #262A33;
+  --border: #333845;
+  --border-strong: #474E5E;
+  --text: #F2F2ED;
+  --text-muted: #9CA3AF;
+  --accent: #EAB308;
+  --accent-fg: #14161B;
+  --accent-soft: rgba(234, 179, 8, 0.14);
+  --shadow: #090A0E;
+}
 
+@theme inline {
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
     system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
     "Noto Sans KR", "Malgun Gothic", sans-serif;
@@ -18,73 +26,61 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #FAF7F2;
-    color: #18181B;
+    background-color: var(--bg);
+    color: var(--text);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: #FAF7F2;
-    color: #18181B;
+    background-color: var(--bg);
+    color: var(--text);
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: #FACC15;
-    color: #18181B;
+    background-color: var(--accent);
+    color: var(--accent-fg);
   }
 }
 
-/* Neo-brutalist / Arcade Indie Studio Hard Border & Offset Shadow Utilities */
+@media (min-width: 1024px) {
+  html.home-smooth-snap {
+    scroll-behavior: auto;
+  }
+}
+
+/* Toybox Ink Dark Arcade Hard Border & Offset Shadow Utilities */
 .arcade-card {
-  background-color: #FFFFFF;
-  border: 2px solid #18181B;
-  box-shadow: 4px 4px 0px #18181B;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: 4px 4px 0px var(--shadow);
 }
 
 .arcade-card-sm {
-  background-color: #FFFFFF;
-  border: 2px solid #18181B;
-  box-shadow: 2px 2px 0px #18181B;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: 2px 2px 0px var(--shadow);
 }
 
 .arcade-btn {
-  border: 2px solid #18181B;
-  box-shadow: 4px 4px 0px #18181B;
+  border: 2px solid var(--border-strong);
+  box-shadow: 3px 3px 0px var(--shadow);
   transition: transform 120ms cubic-bezier(0.2, 0, 0, 1),
     box-shadow 120ms cubic-bezier(0.2, 0, 0, 1),
-    background-color 120ms ease;
+    background-color 120ms ease,
+    border-color 120ms ease;
 }
 
 .arcade-btn:hover:not(:disabled) {
   transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px #18181B;
+  box-shadow: 4px 4px 0px var(--shadow);
 }
 
 .arcade-btn:active:not(:disabled) {
-  transform: translate(3px, 3px);
-  box-shadow: 1px 1px 0px #18181B;
-}
-
-.arcade-row {
-  background-color: #FFFFFF;
-  border: 2px solid #18181B;
-  box-shadow: 4px 4px 0px #18181B;
-  transition: transform 120ms cubic-bezier(0.2, 0, 0, 1),
-    box-shadow 120ms cubic-bezier(0.2, 0, 0, 1),
-    background-color 120ms ease;
-}
-
-.arcade-row:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #18181B;
-}
-
-.arcade-row:active {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px #18181B;
+  box-shadow: 1px 1px 0px var(--shadow);
 }
 
 .tabular-nums {
