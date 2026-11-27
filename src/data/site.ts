@@ -11,10 +11,10 @@ export const siteMeta: SiteMeta = {
   steamComingSoonLabel: "STEAM · COMING SOON",
   steamLiveLabel: "STEAM STORE",
   navItems: [
-    { href: "/", index: "01", label: "게임 소개" },
-    { href: "/guide", index: "02", label: "게임 가이드" },
-    { href: "/devlog", index: "03", label: "개발 노트" },
-    { href: "/team", index: "04", label: "팀 & 연락처" },
+    { href: "/", index: "01", label: "Game" },
+    { href: "/guide", index: "02", label: "Guide" },
+    { href: "/devlog", index: "03", label: "Devlog" },
+    { href: "/team", index: "04", label: "Studio" },
   ],
   footer: {
     copyright: "© 2026 FLIP FIVE",

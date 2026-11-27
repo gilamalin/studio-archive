@@ -1,15 +1,15 @@
 import type { GuideData } from "./types";
 
 export const guideData: GuideData = {
-  headline: "기본 게임 가이드",
+  headline: "How to Play",
   subcopy: "",
   keyBindings: [
-    { keys: ["W", "A", "S", "D"], action: "이동", category: "MOVE" },
-    { keys: ["SPACE"], action: "점프", category: "MOVE" },
-    { keys: ["SHIFT"], action: "대시 / 박치기", category: "MOVE" },
-    { keys: ["LMB", "RMB"], action: "왼손 · 오른손 잡기", category: "PHYSICS" },
-    { keys: ["E"], action: "던지기", category: "PHYSICS" },
-    { keys: ["TAB"], action: "점수판", category: "SYSTEM" },
+    { keys: ["W", "A", "S", "D"], action: "이동", category: "이동" },
+    { keys: ["SPACE"], action: "점프", category: "이동" },
+    { keys: ["SHIFT"], action: "대시 / 박치기", category: "이동" },
+    { keys: ["LMB", "RMB"], action: "왼손 · 오른손 잡기", category: "물리" },
+    { keys: ["E"], action: "던지기", category: "물리" },
+    { keys: ["TAB"], action: "점수판", category: "시스템" },
   ],
   customizeGuide: {
     id: "customize",
@@ -35,13 +35,13 @@ export const guideData: GuideData = {
       "목표 승수(3·5·7승) 선택 후 게임 시작",
     ],
   },
-  stagesHeadline: "스테이지별 플레이 방식",
+  stagesHeadline: "Stages & Rules",
   stages: [
     {
       id: "stage-ringout",
       index: "01",
       name: "링아웃 난투",
-      modeTag: "SURVIVAL",
+      modeTag: "서바이벌",
       winCondition: "발판 위 최후의 1인 생존",
       singleRule: "AI 봇 3명과 3라운드 생존 기록 측정",
       multiRule: "최대 8인 난투 · 탈락 시 관전 전환",
@@ -51,7 +51,7 @@ export const guideData: GuideData = {
       id: "stage-relay",
       index: "02",
       name: "폭탄 릴레이",
-      modeTag: "TAG",
+      modeTag: "술래잡기",
       winCondition: "타이머 종료 시 폭탄 미보유",
       singleRule: "봇에게 폭탄을 넘겨 연속 생존 콤보 기록",
       multiRule: "폭탄 보유자 이속 +15% · 접촉·투척 전달",
@@ -61,7 +61,7 @@ export const guideData: GuideData = {
       id: "stage-trap",
       index: "03",
       name: "함정 장애물",
-      modeTag: "RACE",
+      modeTag: "레이스",
       winCondition: "장애물 돌파 후 결승선 선착",
       singleRule: "체크포인트 기준 최단 완주 타임어택",
       multiRule: "상대 잡기·밀치기 허용 · 1~3위 차등 점수",

@@ -35,6 +35,7 @@ export interface SceneSlide {
 export interface GameFeature {
   id: string;
   index: string;
+  shortLabel: string;
   keyword: string;
   summary: string;
   screenshotSrc: string;
@@ -54,7 +55,7 @@ export interface HomeData {
 export interface KeyBinding {
   keys: string[];
   action: string;
-  category: "MOVE" | "PHYSICS" | "SYSTEM";
+  category: "이동" | "물리" | "시스템";
 }
 
 export interface GuideStepPanel {
@@ -147,10 +148,13 @@ export interface TeamMember {
   name: string;
   handle: string;
   oneLiner: string;
+  bio: string;
   roles: string[];
+  tools: string[];
+  contributions: string[];
   avatarSrc: string;
   expectedAvatarPath: string;
-  links: TeamLink[];
+  githubUrl: string;
 }
 
 export interface ContactData {
@@ -160,9 +164,21 @@ export interface ContactData {
   snsLinks: TeamLink[];
 }
 
+export interface NextProjectTeaser {
+  id: string;
+  index: string;
+  title: string;
+  genre: string;
+  stage: "기획" | "프로토타입";
+  oneLiner: string;
+}
+
 export interface TeamPageData {
   headline: string;
+  studioTagline: string;
   subcopy: string;
   members: TeamMember[];
+  nextProjectsHeadline: string;
+  nextProjects: NextProjectTeaser[];
   contact: ContactData;
 }

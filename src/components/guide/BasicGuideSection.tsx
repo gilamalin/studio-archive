@@ -11,22 +11,15 @@ function GuideMediaPanel({ panel }: { panel: GuideStepPanel }) {
   const hasMedia = panel.mediaSrc.trim().length > 0;
 
   return (
-    <div className="grid h-full grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
-      <div className="flex flex-col justify-between rounded-md border border-white/10 bg-[var(--surface)] p-5 shadow-[0_12px_30px_rgba(0,0,0,0.35)] lg:col-span-5">
-        <div>
-          <h3 className="text-base font-extrabold text-[var(--text)] sm:text-lg">
-            {panel.title}
-          </h3>
-          <p className="mt-1 text-xs font-medium text-[var(--text-muted)] sm:text-sm">
-            {panel.summary}
-          </p>
-        </div>
+    <div className="grid h-full grid-cols-1 items-stretch gap-5 lg:grid-cols-12">
+      <div className="flex flex-col justify-between rounded-md border border-white/[0.08] bg-[#1A1D24] p-5 lg:col-span-5">
+        <p className="text-sm font-bold text-[var(--text)]">{panel.summary}</p>
 
-        <ol className="mt-4 space-y-3 border-t border-white/10 pt-4">
+        <ol className="mt-4 divide-y divide-white/[0.08] border-t border-white/[0.08]">
           {panel.steps.map((step, idx) => (
             <li
               key={step}
-              className="flex items-start gap-2.5 text-sm font-semibold leading-snug text-[var(--text)]"
+              className="flex items-start gap-2.5 py-3 text-sm font-semibold leading-snug text-[var(--text)]/90 last:pb-0"
             >
               <span className="mt-0.5 font-mono text-xs font-black text-[var(--accent)]">
                 0{idx + 1}
@@ -37,7 +30,7 @@ function GuideMediaPanel({ panel }: { panel: GuideStepPanel }) {
         </ol>
       </div>
 
-      <div className="relative aspect-video h-full w-full overflow-hidden rounded-md border border-white/10 bg-[#0E1014] shadow-[0_14px_36px_rgba(0,0,0,0.45)] lg:col-span-7 lg:aspect-auto">
+      <div className="order-first relative aspect-video h-full w-full overflow-hidden rounded-md border border-white/10 bg-[#0E1014] shadow-[0_16px_40px_rgba(0,0,0,0.45)] lg:order-none lg:col-span-7 lg:aspect-auto">
         {hasMedia ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -63,15 +56,15 @@ function GuideMediaPanel({ panel }: { panel: GuideStepPanel }) {
 export function BasicGuideSection() {
   const [activeTab, setActiveTab] = useState<BasicTab>("keys");
 
-  const tabs: { id: BasicTab; index: string; label: string }[] = [
-    { id: "keys", index: "01", label: "기본 조작키" },
-    { id: "customize", index: "02", label: "캐릭터 · 커스터마이징" },
-    { id: "stage-select", index: "03", label: "스테이지 선택" },
+  const tabs: { id: BasicTab; label: string }[] = [
+    { id: "keys", label: "기본 조작키" },
+    { id: "customize", label: "캐릭터 · 커스터마이징" },
+    { id: "stage-select", label: "스테이지 선택" },
   ];
 
   return (
-    <section className="border-b border-white/10 bg-[var(--bg)]">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:py-10">
+    <section className="bg-[var(--bg)]">
+      <div className="mx-auto max-w-6xl px-4 pt-8 pb-6 sm:px-6 lg:pt-10 lg:pb-8">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <span className="inline-block h-5 w-1 rounded-xs bg-[var(--accent)]" />
@@ -80,7 +73,7 @@ export function BasicGuideSection() {
             </h1>
           </div>
 
-          {/* Minimal Tab Switcher (Matches Header Underline Language) */}
+          {/* Minimal Tab Switcher */}
           <div role="tablist" className="flex flex-wrap gap-1.5">
             {tabs.map((tab) => {
               const isActive = tab.id === activeTab;
@@ -91,21 +84,12 @@ export function BasicGuideSection() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`inline-flex cursor-pointer items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-bold transition-colors ${
+                  className={`inline-flex h-8 cursor-pointer items-center rounded-md border px-3 text-xs font-bold transition-colors ${
                     isActive
-                      ? "border-[var(--accent)] bg-[var(--surface)] text-[var(--text)]"
-                      : "border-white/10 bg-[var(--surface-alt)] text-[var(--text-muted)] hover:border-white/20 hover:text-[var(--text)]"
+                      ? "border-[var(--accent)] bg-transparent text-[var(--accent)]"
+                      : "border-white/10 bg-[#111318] text-[var(--text-muted)] hover:border-white/25 hover:text-[var(--text)]"
                   }`}
                 >
-                  <span
-                    className={`font-mono text-[11px] font-black ${
-                      isActive
-                        ? "text-[var(--accent)]"
-                        : "text-[var(--text-muted)]/70"
-                    }`}
-                  >
-                    {tab.index}
-                  </span>
                   <span>{tab.label}</span>
                 </button>
               );
@@ -116,40 +100,34 @@ export function BasicGuideSection() {
         {/* Fixed Desktop Height Container -> 0px Layout Shift Between Tabs */}
         <div className="lg:h-[348px]">
           {activeTab === "keys" && (
-            <div className="grid h-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2">
+            <div className="grid h-full grid-cols-2 gap-3 lg:grid-cols-3 lg:grid-rows-2">
               {guideData.keyBindings.map((binding) => {
-                const isPhysics = binding.category === "PHYSICS";
+                const isPhysics = binding.category === "물리";
                 return (
                   <div
                     key={binding.action}
-                    className={`flex flex-col justify-between rounded-md border bg-[var(--surface)] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] ${
-                      isPhysics
-                        ? "border-l-4 border-l-[var(--accent)] border-y-white/10 border-r-white/10"
-                        : "border-white/10"
-                    }`}
+                    className="flex flex-col justify-between rounded-md border border-white/[0.08] bg-[#1A1D24] p-4 sm:p-5"
                   >
-                    <div className="flex items-center justify-between gap-2">
-                      <span
-                        className={`font-mono text-[10px] font-extrabold tracking-wider ${
-                          isPhysics
-                            ? "text-[var(--accent)]"
-                            : "text-[var(--text-muted)]"
-                        }`}
-                      >
-                        {binding.category}
-                      </span>
-                    </div>
+                    <span
+                      className={`text-[11px] font-bold ${
+                        isPhysics
+                          ? "text-[var(--accent)]"
+                          : "text-[var(--text-muted)]"
+                      }`}
+                    >
+                      {binding.category}
+                    </span>
 
-                    <div className="mt-3 flex items-end justify-between gap-3">
-                      <span className="text-base font-extrabold text-[var(--text)]">
+                    <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
+                      <span className="text-sm font-extrabold text-[var(--text)] sm:text-base">
                         {binding.action}
                       </span>
 
-                      <div className="flex flex-wrap items-center justify-end gap-1.5">
+                      <div className="flex flex-wrap items-center gap-1 sm:justify-end sm:gap-1.5">
                         {binding.keys.map((key) => (
                           <kbd
                             key={key}
-                            className="inline-flex min-w-8 items-center justify-center rounded-sm border border-white/15 bg-[#111318] px-2.5 py-1 font-mono text-xs font-black text-[var(--text)] shadow-[0_2px_0_rgba(0,0,0,0.6)]"
+                            className="inline-flex min-w-7 items-center justify-center rounded-sm border border-white/15 bg-[#111318] px-2 py-1 font-mono text-[11px] font-bold text-[var(--text)] sm:min-w-8 sm:px-2.5 sm:text-xs"
                           >
                             {key}
                           </kbd>

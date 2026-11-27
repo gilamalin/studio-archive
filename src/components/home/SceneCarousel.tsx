@@ -5,17 +5,35 @@ import { ChevronDown, Play } from "lucide-react";
 import { homeData } from "@/data/home";
 import { siteMeta } from "@/data/site";
 
-const AUTO_SLIDE_MS = 6000;
+const PLACEHOLDER_SLIDE_MS = 6000;
 
 export function SceneCarousel() {
   const slides = homeData.slides;
   const total = slides.length;
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [isInView, setIsInView] = useState(true);
   const [bgSlidesReady, setBgSlidesReady] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const touchStartX = useRef<number | null>(null);
+
+  const activeSlide = slides[activeIndex] ?? slides[0];
+  const activeHasVideo = activeSlide.videoSrc.trim().length > 0;
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLElement>) => {
+    if (touchStartX.current === null || total <= 1) return;
+    const endX = event.changedTouches[0]?.clientX ?? touchStartX.current;
+    const diff = touchStartX.current - endX;
+    touchStartX.current = null;
+    if (Math.abs(diff) < 40) return;
+    setActiveIndex((current) =>
+      diff > 0 ? (current + 1) % total : (current - 1 + total) % total
+    );
+  };
 
   // Defer mounting inactive videos until after route transition & header slide finish
   useEffect(() => {
@@ -23,7 +41,7 @@ export function SceneCarousel() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  // Pause video & auto-slide when user scrolls down to Section 2
+  // Pause video when user scrolls down to Section 2
   useEffect(() => {
     const el = sectionRef.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
@@ -39,13 +57,22 @@ export function SceneCarousel() {
     return () => observer.disconnect();
   }, []);
 
+  // Fallback timer only when active slide is a placeholder without videoSrc
   useEffect(() => {
-    if (isPaused || !isInView || total <= 1) return;
+    if (activeHasVideo || !isInView || total <= 1) return;
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % total);
-    }, AUTO_SLIDE_MS);
+    }, PLACEHOLDER_SLIDE_MS);
     return () => window.clearInterval(timer);
-  }, [isPaused, isInView, total]);
+  }, [activeHasVideo, isInView, total]);
+
+  // Restart newly activated video from 0s whenever activeIndex changes
+  useEffect(() => {
+    const activeVideo = videoRefs.current[activeIndex];
+    if (activeVideo) {
+      activeVideo.currentTime = 0;
+    }
+  }, [activeIndex]);
 
   // Play only the focused video while in view; pause inactive / off-screen videos
   useEffect(() => {
@@ -57,15 +84,15 @@ export function SceneCarousel() {
         video.pause();
       }
     });
-  }, [activeIndex, isInView]);
+  }, [activeIndex, isInView, bgSlidesReady]);
 
   return (
     <section
       ref={sectionRef}
       aria-label="게임 씬 쇼케이스"
-      className="relative h-[72vh] min-h-[440px] w-full overflow-hidden bg-[#14161B] lg:h-[calc(100vh-3.5rem)]"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="relative h-[56vh] min-h-[340px] max-h-[520px] w-full overflow-hidden bg-[#14161B] sm:h-[68vh] sm:max-h-none lg:h-[calc(100vh-3.5rem)]"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Full-Bleed Crossfading Video Layers */}
       <div
@@ -94,10 +121,15 @@ export function SceneCarousel() {
                     }}
                     src={slide.videoSrc}
                     autoPlay={isActive}
-                    loop
+                    loop={total <= 1}
                     muted
                     playsInline
-                    preload={isActive ? "auto" : "none"}
+                    preload={isActive ? "auto" : "metadata"}
+                    onEnded={() => {
+                      if (idx === activeIndex && isInView && total > 1) {
+                        setActiveIndex((current) => (current + 1) % total);
+                      }
+                    }}
                     className="h-full w-full object-cover object-top"
                   />
                 ) : null
@@ -121,13 +153,16 @@ export function SceneCarousel() {
 
       {/* Bottom Overlay Content (Strictly Aligned to max-w-6xl Grid) */}
       <div className="absolute inset-x-0 bottom-0 z-30">
-        <div className="mx-auto flex max-w-6xl items-end justify-between gap-4 px-4 pb-8 sm:px-6 sm:pb-10">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-4 pb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:px-6 sm:pb-10">
           {/* Bottom-Left Minimal Game Identity */}
           <div className="max-w-2xl">
-            <h1 className="text-3xl font-black tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)] sm:text-5xl">
+            <div className="mb-1 font-mono text-[11px] font-bold tracking-widest text-[var(--accent)] drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]">
+              PROJECT 01
+            </div>
+            <h1 className="text-2xl font-black tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)] sm:text-5xl">
               {siteMeta.gameTitle}
             </h1>
-            <p className="mt-2 text-sm font-semibold leading-snug text-white/85 drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)] sm:text-base">
+            <p className="mt-1.5 text-xs font-semibold leading-snug text-white/85 drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)] sm:mt-2 sm:text-base">
               {homeData.tagline}
             </p>
           </div>

@@ -35,7 +35,7 @@ export function SteamCtaButton({
         href={siteMeta.steamUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className={`inline-flex items-center justify-center gap-2.5 rounded-md bg-[var(--accent)] font-black tracking-tight text-[var(--accent-fg)] shadow-[0_8px_22px_rgba(234,179,8,0.2)] transition-all hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 ${paddingClass} ${widthClass}`}
+        className={`inline-flex items-center justify-center gap-2.5 rounded-md border border-[var(--accent)] bg-transparent font-bold tracking-tight text-[var(--accent)] transition-colors hover:bg-[var(--accent)] hover:text-[var(--accent-fg)] ${paddingClass} ${widthClass}`}
       >
         <SteamIcon className={iconClass} />
         <span>{siteMeta.steamLiveLabel}</span>
@@ -47,7 +47,7 @@ export function SteamCtaButton({
   return (
     <span
       aria-label="Steam 출시 예정"
-      className={`inline-flex select-none items-center justify-center gap-2.5 rounded-md bg-[var(--accent)] font-black tracking-tight text-[var(--accent-fg)] shadow-[0_8px_22px_rgba(234,179,8,0.18)] ${paddingClass} ${widthClass}`}
+      className={`inline-flex select-none items-center justify-center gap-2.5 rounded-md border border-[var(--accent)] bg-transparent font-bold tracking-tight text-[var(--accent)] ${paddingClass} ${widthClass}`}
     >
       <SteamIcon className={iconClass} />
       <span className="font-mono">{siteMeta.steamComingSoonLabel}</span>

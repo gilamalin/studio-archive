@@ -79,21 +79,12 @@ export function Header() {
                 }}
                 href={item.href}
                 onClick={() => setVisualIndex(idx)}
-                className={`relative inline-flex h-full items-center gap-1.5 text-xs font-bold transition-colors ${
+                className={`relative inline-flex h-full items-center text-xs font-bold transition-colors ${
                   isActive
                     ? "text-[var(--text)]"
                     : "text-[var(--text-muted)] hover:text-[var(--text)]"
                 }`}
               >
-                <span
-                  className={`font-mono text-[11px] font-bold transition-colors ${
-                    isActive
-                      ? "text-[var(--accent)]"
-                      : "text-[var(--text-muted)]/70"
-                  }`}
-                >
-                  {item.index}
-                </span>
                 <span>{item.label}</span>
               </Link>
             );

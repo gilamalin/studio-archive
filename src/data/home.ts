@@ -33,11 +33,12 @@ export const homeData: HomeData = {
       expectedPath: "public/media/scene-03.mp4",
     },
   ],
-  featuresHeadline: "재미 요소",
+  featuresHeadline: "Highlights",
   features: [
     {
       id: "feat-physics",
       index: "01",
+      shortLabel: "물리",
       keyword: "우당탕탕 물리 충돌",
       summary: "액티브 래그돌 조작으로 매 판 달라지는 예측 불가 플레이",
       screenshotSrc: "/media/feature-01-physics.jpg",
@@ -47,6 +48,7 @@ export const homeData: HomeData = {
     {
       id: "feat-grab",
       index: "02",
+      shortLabel: "액션",
       keyword: "자유로운 상호작용",
       summary: "잡기, 던지기, 드롭킥까지 무엇이든 시도해 보는 자유로움",
       screenshotSrc: "/media/feature-02-grab.jpg",
@@ -56,6 +58,7 @@ export const homeData: HomeData = {
     {
       id: "feat-party",
       index: "03",
+      shortLabel: "모드",
       keyword: "다양한 스테이지 구성",
       summary: "새로운 룰 속에서 피어나는 우정",
       screenshotSrc: "/media/feature-03-party.jpg",
